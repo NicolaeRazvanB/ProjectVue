@@ -1,33 +1,89 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const logger = require("morgan");
+const db = require("./db");
+
+const wineryRouter = require("../api/routes/winery");
+const wineRouter = require("../api/routes/wine");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 app.use(logger("dev"));
-const {
-  initializeApp,
-  applicationDefault,
-  cert,
-} = require("firebase-admin/app");
-const {
-  getFirestore,
-  Timestamp,
-  FieldValue,
-} = require("firebase-admin/firestore");
-const serviceAccount = require("../api/projectvue-f17cb-firebase-adminsdk-isgck-1dd46ef013.json");
-initializeApp({
-  credential: cert(serviceAccount),
-});
-const dbFirebase = getFirestore();
 
-//REQUESTS
+app.use("/", wineryRouter);
+app.use("/", wineRouter);
+
+app.use((error, request, response, next) => {
+  console.error(`[ERROR]: ${error}`);
+  response.status(500).json(error);
+});
+
+//REGISTER USER
+app.post("/users", async (req, res) => {
+  let data = req.body;
+  let isEmail = false;
+  const userRef = db.collection("users");
+  const snapshot = await userRef.where("email", "==", data.email).get();
+  if (!snapshot.empty) {
+    isEmail = true;
+  }
+
+  if (isEmail) {
+    res.send("User already exists");
+  } else {
+    bcrypt.hash(data.password, saltRounds).then(async function (hash) {
+      data.password = hash;
+      const user = await db.collection("users").add(data);
+      res.send("Register OK");
+    });
+  }
+});
+
+//LOGIN USER
+app.post("/login", async (req, res) => {
+  let data = req.body;
+  let emailFound = false;
+  const usersRef = db.collection("users");
+  const snapshot = await usersRef.where("email", "==", data.email).get();
+
+  if (snapshot.empty) {
+    let response = {};
+    response.message = "Email not found";
+    res.json(response);
+  } else {
+    emailFound = true;
+    snapshot.forEach((doc) => {
+      bcrypt
+        .compare(data.password, doc.data().password)
+        .then(async function (result) {
+          if (result) {
+            let token = jwt.sign(
+              {
+                email: doc.data().email,
+              },
+              secret,
+              { expiresIn: "7 days" }
+            );
+            let response = {};
+            response.token = token;
+            response.message = "Acces granted";
+            res.json(response);
+          } else {
+            let response = {};
+            response.message = "Invalid password";
+            res.json(response);
+          }
+        });
+    });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}!`);
 });
