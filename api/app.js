@@ -7,6 +7,7 @@ const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const logger = require("morgan");
 const db = require("./db");
+const secret = "dungeonsanddragons";
 
 const wineryRouter = require("../api/routes/winery");
 const wineRouter = require("../api/routes/wine");
