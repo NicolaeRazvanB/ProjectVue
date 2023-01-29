@@ -26,7 +26,7 @@ app.use((error, request, response, next) => {
 });
 
 //REGISTER USER
-app.post("/users", async (req, res) => {
+app.post("/register", async (req, res) => {
   let data = req.body;
   let isEmail = false;
   const userRef = db.collection("users");
