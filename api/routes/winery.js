@@ -35,8 +35,8 @@ router.post("/wineries", checkAuthorization, async (req, res) => {
     location: req.body.location,
     foundingYear: req.body.foundingYear,
   };
-  await db.collection("wineries").add(winery);
-  res.json(winery);
+  let added = await db.collection("wineries").add(winery);
+  res.json({ id: added.id });
 });
 
 //GET ALL WINERIES

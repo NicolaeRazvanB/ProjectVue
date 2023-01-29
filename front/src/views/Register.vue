@@ -38,7 +38,7 @@ export default {
         email: this.email,
         password: this.password,
       };
-      let requestParams = requestOptions;
+      let requestParams = { ...requestOptions };
       requestParams.method = "POST";
       requestParams.body = JSON.stringify(data);
       fetch(base_url + "register", requestParams).then((res) => {

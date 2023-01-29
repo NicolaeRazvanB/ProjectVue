@@ -7,6 +7,7 @@ import { RouterLink, RouterView } from "vue-router";
     <RouterLink v-if="!isAuthenticated" to="/login">Login</RouterLink>
     <RouterLink v-if="!isAuthenticated" to="/register">Register</RouterLink>
     <RouterLink to="/">Home</RouterLink>
+    <RouterLink v-if="isAuthenticated" to="/addWinery">Add Winery</RouterLink>
     <button v-if="isAuthenticated" @click="logout()" id="logoutBtn">
       Logout
     </button>
@@ -38,7 +39,5 @@ nav {
   justify-content: center;
   height: 30px;
   background-color: salmon;
-}
-#logoutBtn {
 }
 </style>

@@ -22,7 +22,6 @@
 
 <script>
 import { requestOptions, base_url } from "@/requestOptions";
-
 export default {
   name: "Login",
   data() {
@@ -37,7 +36,7 @@ export default {
         email: this.email,
         password: this.password,
       };
-      let requestParams = requestOptions;
+      let requestParams = { ...requestOptions };
       requestParams.method = "POST";
       requestParams.body = JSON.stringify(data);
       fetch(base_url + "login", requestParams).then((res) => {
