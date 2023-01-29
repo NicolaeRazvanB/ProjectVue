@@ -1,18 +1,14 @@
-<script setup></script>
-
 <template>
-  <h1 id="title">Avaible wineries</h1>
+  <h1 id="title">Avaible wines for {{ this.$route.query.name }}</h1>
   <div id="wineryContainer">
-    <div v-for="winery in wineries" class="wineryCard">
-      <h3>Name: {{ winery.name }}</h3>
-      <h3>Location: {{ winery.location }}</h3>
-      <h3>Founded in: {{ winery.foundingYear }}</h3>
+    <div v-for="wine in this.wines" class="wineryCard">
+      <h3>Name: {{ wine.name }}</h3>
+      <h3>Type: {{ wine.type }}</h3>
+      <h3>Variety: {{ wine.variety }}</h3>
+      <h3>Variety: {{ wine.color }}</h3>
       <div>
-        <button @click="showWines(winery)">Show Wines</button>
-        <button v-if="isAuthenticated" @click="editWinery(winery)">Edit</button>
-        <button v-if="isAuthenticated" @click="deleteWinery(winery)">
-          Delete
-        </button>
+        <button v-if="isAuthenticated" @click="editWine(wine)">Edit</button>
+        <button v-if="isAuthenticated" @click="deleteWine(wine)">Delete</button>
       </div>
     </div>
   </div>
@@ -21,42 +17,43 @@
 <script>
 import { requestOptions, base_url } from "@/requestOptions";
 export default {
-  name: "Home",
+  name: "Wines",
   components: {},
   data() {
-    return {};
+    return { wines: [] };
   },
   created() {
-    if (!this.wineries.length) {
-      fetch(base_url + "wineries", requestOptions).then((res) =>
+    if (!this.wines.length) {
+      console.log(this.$route.query);
+      fetch(
+        base_url + "wineries/wines/" + this.$route.query.id,
+        requestOptions
+      ).then((res) =>
         res.json().then((res) => {
-          this.$store.dispatch("fetchWineries", res);
+          this.wines = [...res];
         })
       );
     }
   },
   computed: {
-    wineries() {
-      return this.$store.state.wineries;
-    },
     isAuthenticated() {
       return this.$store.state.isAuthenticated;
     },
   },
   methods: {
-    deleteWinery(winery) {
-      this.$store.dispatch("deleteWinery", winery);
+    deleteWine(wine) {
+      this.wines.splice(this.wines.indexOf(wine), 1);
       let requestParams = { ...requestOptions };
       requestParams.headers.Authorization =
         "Bearer " + window.localStorage.getItem("JWTtoken");
       requestParams.method = "DELETE";
-      fetch(base_url + "wineries/" + winery.id, requestParams);
+      fetch(
+        base_url + "wineries/wines/" + this.$route.query.id + "/" + wine.id,
+        requestParams
+      );
     },
-    editWinery(winery) {
+    editWine(wine) {
       this.$router.push({ path: "/editWinery", query: winery });
-    },
-    showWines(winery) {
-      this.$router.push({ path: "/wines", query: winery });
     },
   },
 };
@@ -84,9 +81,5 @@ export default {
   margin: 3px;
   height: max-content;
   padding: 3px;
-}
-
-body {
-  background-color: lightskyblue;
 }
 </style>
