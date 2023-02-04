@@ -85,24 +85,29 @@ app.post("/login", async (req, res) => {
 });
 
 //POPULATE DB WINERIES
-app.get("/populateDB", async (req, res) => {
+app.get("/populateWineries", async (req, res) => {
   let wineryMockList = generateWineries();
   wineryMockList.forEach(async (winery) => {
     await db.collection("wineries").add(winery);
   });
 
-  const wineries = await db
-    .collection("wineries")
-    .listDocuments()
-    .then((x) => {
-      x.map((x) => {
-        let wineList = generateWines();
-        wineList.forEach((wine) => {
-          x.collection("wines").add(wine);
-        });
-      });
+  res.send("Populate ok");
+});
+
+//POPULATE DB WINES
+app.get("/populateWines", async (req, res) => {
+  let wineries = await db.collection("wineries").get();
+  wineries.forEach((winery) => {
+    let winesList = generateWines();
+    winesList.forEach(async (wine) => {
+      await db
+        .collection("wineries")
+        .doc(winery.id)
+        .collection("wines")
+        .add(wine);
     });
-  res.send("Populate successfull");
+  });
+  res.send("Populate ok");
 });
 
 app.listen(port, () => {
