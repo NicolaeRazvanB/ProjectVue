@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 const logger = require("morgan");
 const db = require("./db");
 const secret = "dungeonsanddragons";
-
+const { generateWineries, generateWines } = require("../api/utils");
 const wineryRouter = require("../api/routes/winery");
 const wineRouter = require("../api/routes/wine");
 
@@ -52,7 +52,6 @@ app.post("/login", async (req, res) => {
   let emailFound = false;
   const usersRef = db.collection("users");
   const snapshot = await usersRef.where("email", "==", data.email).get();
-
   if (snapshot.empty) {
     let response = {};
     response.message = "Email not found";
@@ -83,6 +82,27 @@ app.post("/login", async (req, res) => {
         });
     });
   }
+});
+
+//POPULATE DB WINERIES
+app.get("/populateDB", async (req, res) => {
+  let wineryMockList = generateWineries();
+  wineryMockList.forEach(async (winery) => {
+    await db.collection("wineries").add(winery);
+  });
+
+  const wineries = await db
+    .collection("wineries")
+    .listDocuments()
+    .then((x) => {
+      x.map((x) => {
+        let wineList = generateWines();
+        wineList.forEach((wine) => {
+          x.collection("wines").add(wine);
+        });
+      });
+    });
+  res.send("Populate successfull");
 });
 
 app.listen(port, () => {
