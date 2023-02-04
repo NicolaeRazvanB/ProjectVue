@@ -1,5 +1,6 @@
 <template>
   <h1 id="title">Avaible wines for {{ this.$route.query.name }}</h1>
+  <button v-if="isAuthenticated" @click="addWine()">Add Wine</button>
   <div id="wineryContainer">
     <div v-for="wine in this.wines" class="wineryCard">
       <h3>Name: {{ wine.name }}</h3>
@@ -16,6 +17,7 @@
 
 <script>
 import { requestOptions, base_url } from "@/requestOptions";
+import { NavigationFailureType } from "vue-router";
 export default {
   name: "Wines",
   components: {},
@@ -24,7 +26,6 @@ export default {
   },
   created() {
     if (!this.wines.length) {
-      console.log(this.$route.query);
       fetch(
         base_url + "wineries/wines/" + this.$route.query.id,
         requestOptions
@@ -53,7 +54,20 @@ export default {
       );
     },
     editWine(wine) {
-      this.$router.push({ path: "/editWinery", query: winery });
+      let info = { ...this.$route.query };
+      info.wineId = wine.id;
+      info.wineName = wine.name;
+      info.wineType = wine.type;
+      info.wineColor = wine.color;
+      info.wineVariety = wine.variety;
+
+      this.$router.push({ path: "/editWine", query: info });
+    },
+    addWine() {
+      this.$router.push({
+        path: "/addWine",
+        query: { ...this.$route.query },
+      });
     },
   },
 };

@@ -53,7 +53,7 @@ export default {
             console.log("Authentification Error");
           } else {
             data.id = res.id;
-            this.$store.dispatch("addWinery", data);
+
             this.$router.push("/");
           }
         });

@@ -41,12 +41,12 @@ export default {
       requestParams.headers.Authorization =
         "Bearer " + window.localStorage.getItem("JWTtoken");
       requestParams.method = "PUT";
-      let data = {
+      let winery = {
         name: this.name,
         location: this.location,
         foundingYear: this.foundingYear,
       };
-      requestParams.body = JSON.stringify(data);
+      requestParams.body = JSON.stringify(winery);
       fetch(base_url + "wineries/" + this.$route.query.id, requestParams)
         .then((res) => res.json())
         .then((res) => {
@@ -55,7 +55,6 @@ export default {
             console.log("Authentification Error");
           } else {
             let wineries = fetch(base_url + "wineries", requestOptions);
-            this.$store.dispatch("fetchWineries", wineries);
             this.$router.push("/");
           }
         });

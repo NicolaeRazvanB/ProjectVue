@@ -24,33 +24,30 @@ export default {
   name: "Home",
   components: {},
   data() {
-    return {};
+    return { wineries: [] };
   },
   created() {
     if (!this.wineries.length) {
       fetch(base_url + "wineries", requestOptions).then((res) =>
         res.json().then((res) => {
-          this.$store.dispatch("fetchWineries", res);
+          this.wineries = [...res];
         })
       );
     }
   },
   computed: {
-    wineries() {
-      return this.$store.state.wineries;
-    },
     isAuthenticated() {
       return this.$store.state.isAuthenticated;
     },
   },
   methods: {
     deleteWinery(winery) {
-      this.$store.dispatch("deleteWinery", winery);
       let requestParams = { ...requestOptions };
       requestParams.headers.Authorization =
         "Bearer " + window.localStorage.getItem("JWTtoken");
       requestParams.method = "DELETE";
       fetch(base_url + "wineries/" + winery.id, requestParams);
+      this.wineries.splice(this.wineries.indexOf(winery), 1);
     },
     editWinery(winery) {
       this.$router.push({ path: "/editWinery", query: winery });
