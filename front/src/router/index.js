@@ -7,6 +7,7 @@ import AddWine from "../views/AddWine.vue";
 import EditWinery from "../views/EditWinery.vue";
 import EditWine from "../views/EditWine.vue";
 import Wines from "../views/Wines.vue";
+import store from "../store";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -53,4 +54,14 @@ const router = createRouter({
   ],
 });
 
+router.beforeEach((to, from, next) => {
+  console.log(store);
+  if (to.name === "Home" || to.name === "Login" || to.name === "Register") {
+    next();
+  } else if (to.name !== "Login" && !store.state.isAuthenticated) {
+    next({ name: "Login" });
+  } else {
+    next();
+  }
+});
 export default router;

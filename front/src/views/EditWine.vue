@@ -1,30 +1,27 @@
 <template>
-  <div>
-    <form @submit.prevent="editWine()">
-      <label> Name </label>
-      <input v-model="name" type="text" required />
-      <label> Type </label>
-      <select v-model="type">
-        <option value="Dry">Dry</option>
-        <option value="Slightly sweet">Slightly sweet</option>
-        <option value="Strongly sweet">Strongly sweet</option>
-      </select>
-      <label> Variety </label>
-      <select v-model="variety">
-        <option v-for="wine in this.varietyList" :value="wine">
-          {{ wine }}
-        </option>
-      </select>
-      <label> Color </label>
-      <select v-model="color">
-        <option value="Red">Red</option>
-        <option value="White">White</option>
-        <option value="Rose">Rose</option>
-      </select>
-
-      <button type="submit">Save Changes</button>
-    </form>
-  </div>
+  <form @submit.prevent="editWine()">
+    <label> Name </label>
+    <input v-model="name" type="text" required />
+    <label> Type </label>
+    <select v-model="type">
+      <option value="Dry">Dry</option>
+      <option value="Slightly sweet">Slightly sweet</option>
+      <option value="Strongly sweet">Strongly sweet</option>
+    </select>
+    <label> Variety </label>
+    <select v-model="variety">
+      <option v-for="wine in this.varietyList" :value="wine">
+        {{ wine }}
+      </option>
+    </select>
+    <label> Color </label>
+    <select v-model="color">
+      <option value="Red">Red</option>
+      <option value="White">White</option>
+      <option value="Rose">Rose</option>
+    </select>
+    <button type="submit">Save Changes</button>
+  </form>
 </template>
 
 <script>

@@ -4,15 +4,22 @@ import { RouterLink, RouterView } from "vue-router";
 
 <template>
   <nav>
-    <RouterLink v-if="!isAuthenticated" to="/login">Login</RouterLink>
-    <RouterLink v-if="!isAuthenticated" to="/register">Register</RouterLink>
-    <RouterLink to="/">Home</RouterLink>
-    <RouterLink v-if="isAuthenticated" to="/addWinery">Add Winery</RouterLink>
-    <button v-if="isAuthenticated" @click="logout()" id="logoutBtn">
-      Logout
-    </button>
+    <div id="linkContainer">
+      <RouterLink v-if="!isAuthenticated" to="/login" class="link"
+        >Login</RouterLink
+      >
+      <RouterLink v-if="!isAuthenticated" to="/register" class="link"
+        >Register</RouterLink
+      >
+      <RouterLink to="/" class="link">Home</RouterLink>
+      <RouterLink v-if="isAuthenticated" to="/addWinery" class="link"
+        >Add Winery</RouterLink
+      >
+    </div>
   </nav>
-
+  <button v-if="isAuthenticated" @click="logout()" id="logoutBtn">
+    Logout
+  </button>
   <RouterView />
 </template>
 
@@ -37,7 +44,33 @@ nav {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  height: 40px;
+  background-color: rgb(82, 16, 9);
+  border-radius: 5px;
+}
+
+.link {
+  width: max-content;
+  text-decoration: none;
+  color: whitesmoke;
+  margin: 2px;
+  padding: 5px;
+  border: 2px solid rgb(172, 75, 65);
+  border-radius: 5px;
+  text-align: center;
+}
+#logoutBtn {
+  background-color: rgb(172, 75, 65);
+  color: whitesmoke;
+  border-radius: 5px;
+  border-color: rgb(82, 16, 9);
   height: 30px;
-  background-color: salmon;
+  margin-top: 10px;
+}
+
+#linkContainer {
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
 }
 </style>

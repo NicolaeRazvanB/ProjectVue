@@ -1,26 +1,23 @@
 <template>
-  <div>
-    <form @submit.prevent="editWinery()">
-      <label> Name </label>
-      <input v-model="name" type="text" required />
-      <label> Location </label>
-      <input v-model="location" type="text" required />
-      <label> Founding Year </label>
-      <select v-model="foundingYear">
-        <option
-          v-for="n in Array.from(
-            { length: 801 },
-            (v, i) => i + (new Date().getFullYear() - 800)
-          )"
-          :value="n"
-        >
-          {{ n }}
-        </option>
-      </select>
-
-      <button type="submit">Save Changes</button>
-    </form>
-  </div>
+  <form @submit.prevent="editWinery()">
+    <label> Name </label>
+    <input v-model="name" type="text" required />
+    <label> Location </label>
+    <input v-model="location" type="text" required />
+    <label> Founding Year </label>
+    <select v-model="foundingYear">
+      <option
+        v-for="n in Array.from(
+          { length: 801 },
+          (v, i) => i + (new Date().getFullYear() - 800)
+        )"
+        :value="n"
+      >
+        {{ n }}
+      </option>
+    </select>
+    <button type="submit">Save Changes</button>
+  </form>
 </template>
 
 <script>

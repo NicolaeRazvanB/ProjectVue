@@ -1,22 +1,15 @@
 <template>
-  <div>
-    <br />
-    <h1>Log In</h1>
-    <form @submit.prevent="login()">
-      <div>
+  <div class="containerLogin">
+    <div class="secondaryContainer">
+      <h1>Log In</h1>
+      <form @submit.prevent="login()">
         <label>Email</label>
-        <div>
-          <input v-model="email" type="email" />
-        </div>
-      </div>
-      <div>
+        <input v-model="email" type="email" />
         <label>Password</label>
-        <div>
-          <input v-model="password" type="password" />
-        </div>
-      </div>
-      <button type="submit">Sign in</button>
-    </form>
+        <input v-model="password" type="password" />
+        <button type="submit" class="activeButtons">Sign in</button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -53,4 +46,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.containerLogin {
+  display: flex;
+  justify-content: center;
+}
+.secondaryContainer {
+  display: flex;
+  flex-direction: column;
+}
+</style>

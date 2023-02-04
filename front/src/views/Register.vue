@@ -15,7 +15,7 @@
           <input v-model="password" type="password" />
         </div>
       </div>
-      <button type="submit">Register</button>
+      <button type="submit" class="activeButtons">Register</button>
     </form>
     <h3>{{ registerResponse }}</h3>
   </div>

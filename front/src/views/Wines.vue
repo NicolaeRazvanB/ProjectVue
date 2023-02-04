@@ -1,6 +1,8 @@
 <template>
   <h1 id="title">Avaible wines for {{ this.$route.query.name }}</h1>
-  <button v-if="isAuthenticated" @click="addWine()">Add Wine</button>
+  <button v-if="isAuthenticated" @click="addWine()" class="activeButtons">
+    Add Wine
+  </button>
   <div id="wineryContainer">
     <div v-for="wine in this.wines" class="wineryCard">
       <h3>Name: {{ wine.name }}</h3>
@@ -8,8 +10,20 @@
       <h3>Variety: {{ wine.variety }}</h3>
       <h3>Variety: {{ wine.color }}</h3>
       <div>
-        <button v-if="isAuthenticated" @click="editWine(wine)">Edit</button>
-        <button v-if="isAuthenticated" @click="deleteWine(wine)">Delete</button>
+        <button
+          v-if="isAuthenticated"
+          @click="editWine(wine)"
+          class="activeButtons"
+        >
+          Edit
+        </button>
+        <button
+          v-if="isAuthenticated"
+          @click="deleteWine(wine)"
+          class="activeButtons"
+        >
+          Delete
+        </button>
       </div>
     </div>
   </div>
@@ -90,10 +104,20 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 3px solid green;
+  border: 3px solid rgb(82, 16, 9);
   width: fit-content;
   margin: 3px;
   height: max-content;
   padding: 3px;
+}
+
+.activeButtons {
+  background-color: rgb(172, 75, 65);
+  color: whitesmoke;
+  border-radius: 5px;
+  border-color: rgb(82, 16, 9);
+  height: 30px;
+  margin: 3px;
+  margin-top: 10px;
 }
 </style>

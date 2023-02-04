@@ -8,9 +8,21 @@
       <h3>Location: {{ winery.location }}</h3>
       <h3>Founded in: {{ winery.foundingYear }}</h3>
       <div>
-        <button @click="showWines(winery)">Show Wines</button>
-        <button v-if="isAuthenticated" @click="editWinery(winery)">Edit</button>
-        <button v-if="isAuthenticated" @click="deleteWinery(winery)">
+        <button @click="showWines(winery)" class="activeButtons">
+          Show Wines
+        </button>
+        <button
+          v-if="isAuthenticated"
+          @click="editWinery(winery)"
+          class="activeButtons"
+        >
+          Edit
+        </button>
+        <button
+          v-if="isAuthenticated"
+          @click="deleteWinery(winery)"
+          class="activeButtons"
+        >
           Delete
         </button>
       </div>
@@ -66,7 +78,6 @@ export default {
   height: 20px;
 }
 #wineryContainer {
-  /* border: 1px solid red; */
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -76,14 +87,25 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 3px solid green;
+  border: 3px solid;
+  border-color: rgb(82, 16, 9) s;
+  border-radius: 5px;
   width: fit-content;
   margin: 3px;
   height: max-content;
   padding: 3px;
 }
 
+.activeButtons {
+  background-color: rgb(172, 75, 65);
+  color: whitesmoke;
+  border-radius: 5px;
+  border-color: rgb(82, 16, 9);
+  height: 30px;
+  margin: 3px;
+  margin-top: 10px;
+}
 body {
-  background-color: lightskyblue;
+  background-color: rgb(150, 235, 171);
 }
 </style>

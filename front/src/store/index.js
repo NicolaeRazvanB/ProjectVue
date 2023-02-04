@@ -2,7 +2,7 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    isAuth: localStorage.getItem("JWTtoken") ? true : false,
+    isAuthenticated: localStorage.getItem("JWTtoken") ? true : false,
   },
   getters: {},
   mutations: {
