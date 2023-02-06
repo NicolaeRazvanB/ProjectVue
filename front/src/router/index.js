@@ -56,7 +56,12 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   console.log(store);
-  if (to.name === "Home" || to.name === "Login" || to.name === "Register") {
+  if (
+    to.name === "Home" ||
+    to.name === "Wines" ||
+    to.name === "Login" ||
+    to.name === "Register"
+  ) {
     next();
   } else if (to.name !== "Login" && !store.state.isAuthenticated) {
     next({ name: "Login" });
