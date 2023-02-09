@@ -33,8 +33,6 @@
 <script>
 import { requestOptions, base_url } from "@/requestOptions";
 export default {
-  name: "Home",
-  components: {},
   data() {
     return { wineries: [] };
   },
